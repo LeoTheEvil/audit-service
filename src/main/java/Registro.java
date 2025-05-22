@@ -1,29 +1,42 @@
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 import java.util.Map;
 
 @Entity
 public class Registro {
 
+    @Id
+    private long claveRegistro;
     private long timestamp;
     private String responsable;
     private long processId;
     private String description;
     private String type;
-    private Map data;
+    private String data;
 
     public Registro() {
 
     }
 
-    public Registro(long timestamp, String responsable, long processId, String description, String type, Map data) {
+    public Registro(long claveRegistro, long timestamp, String responsable, long processId, String description, String type, String data) {
+        this.claveRegistro=claveRegistro;
         this.timestamp=timestamp;
         this.responsable=responsable;
         this.processId=processId;
         this.description=description;
         this.type=type;
         this.data=data;
+    }
+
+    @JsonProperty("claveRegistro")
+    public long getClaveRegistro() {
+        return claveRegistro;
+    }
+
+    public void setClaveRegistro(long claveRegistro) {
+        this.claveRegistro=claveRegistro;
     }
 
     @JsonProperty("timestamp")
@@ -67,16 +80,17 @@ public class Registro {
     }
 
     @JsonProperty("data")
-    public Map getData() {
+    public String getData() {
         return data;
     }
-    public void setData(Map data) {
+    public void setData(String data) {
         this.data=data;
     }
 
     @Override
     public String toString() {
-        return "Timestamp: " + timestamp + ", Responsable: " + responsable + ", Process Id: " + processId + "," +
-                " Description: " + description + ", Type: " + type + "Data: " + data;
+        return "Clave: " + claveRegistro + "Timestamp: " + timestamp + ", Responsable: " + responsable +
+                ", Process Id: " + processId + "," + " Description: " + description + ", Type: " + type +
+                "Data: " + data;
     }
 }

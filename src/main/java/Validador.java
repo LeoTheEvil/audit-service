@@ -15,5 +15,8 @@ public class Validador {
         if (registro.getType().isBlank()) {
             throw new ParametroIncorrecto("El tipo no puede ser vacio.");
         }
+        if (registro.getData().isBlank()) {
+            throw new ParametroIncorrecto("La data no puede ser vacia.");
+        }
     }
 }

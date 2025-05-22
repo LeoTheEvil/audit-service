@@ -1,16 +1,18 @@
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.WebApplicationException;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.reactive.RestResponse;
 
+@Path("/auditoria")
+@Transactional
 public class RecursoAuditoria {
 
     RepositorioAuditoria repo = new RepositorioAuditoria();
     Validador validador = new Validador();
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     public RestResponse<Registro> guardarRegistro(Registro registro) {
         try {
             validador.validar(registro);
@@ -22,7 +24,9 @@ public class RecursoAuditoria {
     }
 
     @GET
-    public Registro obtenerRegistro(long idRegistro) {
+    @Path("/{idRegistro}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Registro obtenerRegistro(@PathParam("idRegistro") long idRegistro) {
         var registroBuscado = repo.findById(idRegistro);
         if (registroBuscado != null) {
             return registroBuscado;
